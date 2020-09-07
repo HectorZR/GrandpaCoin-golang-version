@@ -2,13 +2,18 @@ package main
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo"
 )
 
 // GetRoutes set all the server routes
 func GetRoutes(serverInstance *echo.Echo) {
-	serverInstance.GET("/", func(context echo.Context) error {
-		return context.String(http.StatusOK, "Hello world!")
+	api := serverInstance.Group("/api")
+
+	api.GET("/ping", func(context echo.Context) error {
+		return context.JSON(http.StatusOK, map[string]time.Time{
+			"server_time": time.Now(),
+		})
 	})
 }
